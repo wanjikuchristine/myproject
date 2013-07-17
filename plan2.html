@@ -18,16 +18,18 @@
 
 <script type="text/javascript">
 
-    //function reportload(repoid){
-       //  &("#reports").html(" ");
-       // $.get('../api/reports/query.json',function(json){
-          //  $(json.reports).each(function(i,data){
-            //    $.get(data.href+".json",function(json){
-              //      $(json).each(function(index,data){
-                //        $(d.indicators).each(function(i,cdata){
-                  //          if(repoid==cdata.id)  {
-                    //            disp.push(json.id);
-                      //      }
+    function reportload(repoid)
+    {
+
+     $("#reports").html(" ");
+        $.get('../api/reporttables/query.json',function(json){
+            $(json.reports).each(function(i,data){
+                $.get(data.href+".json",function(json){
+                    $(json).each(function(index,data){
+                        $(d.indicators).each(function(i,cdata){
+                            if(repoid==cdata.id)  {
+                                disp.push(json.id);
+                            }
 
                         });
                     });
@@ -52,7 +54,7 @@
                         $.get($(this).attr("href")+".json", function(json){
                             $(json.indicators).each(function(i, d){
                                 var anchor = $("<a></a>").attr("href","#").attr("id",d.name.replace(' ','_')).append(d.name);
-                                alert($(json.indicators).length);
+                                console.log($(json.indicators).length);
                                 $("#section1").append(anchor).append("<br/>");
 
                             });
