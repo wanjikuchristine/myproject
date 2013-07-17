@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<style type="text/css" media="screen">
+    #section1>div{
+        position:absolute;
+        margin-left:500px;
+        margin-top: -75px;
+    }
+    #results{
+        float: right;
+    }
+        /* Put your CSS styling here */
+
+
+</style>
+
+
+<script type="text/javascript">
+
+    //function reportload(repoid){
+       //  &("#reports").html(" ");
+       // $.get('../api/reports/query.json',function(json){
+          //  $(json.reports).each(function(i,data){
+            //    $.get(data.href+".json",function(json){
+              //      $(json).each(function(index,data){
+                //        $(d.indicators).each(function(i,cdata){
+                  //          if(repoid==cdata.id)  {
+                    //            disp.push(json.id);
+                      //      }
+
+                        });
+                    });
+                });
+
+            });
+        }) ;
+
+    }
+
+    $(document).ready(function(){
+        $("#search").keyup(function(){
+            // cls
+            $("#results").html("");
+            $.get('../api/indicatorGroups/query/'+$(this).val()+'.json', function(json){
+                $(json.indicatorGroups).each(function(i, data){
+                    var anchor = $("<a></a>").attr("href",data.href).attr("id",data.name.replace(' ','_')).append(data.name);
+                  // alert($(json.indicatorGroups).length);
+                    $("#results").append(anchor).append("<br/>");
+                    anchor.bind("click",function(e){
+                        e.preventDefault();
+                        $.get($(this).attr("href")+".json", function(json){
+                            $(json.indicators).each(function(i, d){
+                                var anchor = $("<a></a>").attr("href","#").attr("id",d.name.replace(' ','_')).append(d.name);
+                                alert($(json.indicators).length);
+                                $("#section1").append(anchor).append("<br/>");
+
+                            });
+
+                        });
+                    });
+                });
+            });
+        });
+    });
+   // $.size("#results")
+   /* var sum=0
+    for(var i=0;i<"#results".length;i++){
+        sum=sum+i;
+        document.write(sum+"<br/>");
+    }    */
+    </script>
+<div>
+    <label for="search">Search section</label>
+    <input type="text" id="search" />
+    <div id = "results">
+
+    </div>
+    <div id = "section1">
+    </div>
+</div>
