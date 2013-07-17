@@ -17,18 +17,20 @@
 
 
 <script type="text/javascript">
-
+            var reponu;charno;
     function reportload(repoid)
     {
+      reponu = 0;
+     $("#reports").html("");
 
-     $("#reports").html(" ");
-        $.get('../api/reporttables/query.json',function(json){
-            $(json.reports).each(function(i,data){
-                $.get(data.href+".json",function(json){
-                    $(json).each(function(index,data){
-                        $(d.indicators).each(function(i,cdata){
+        $.get('../api/reportTables.json',function(rep){
+            $(rep.reportTables).each(function(i,rdata){
+                $.get(rdata.href+".json",function(repdata){
+                    $(repdata).each(function(index,data){
+                        $(data.indicators).each(function(i,cdata){
                             if(repoid==cdata.id)  {
-                                disp.push(json.id);
+                             reponu++;
+                                console.log(reponu+':'+repoid);
                             }
 
                         });
@@ -39,6 +41,25 @@
         }) ;
 
     }
+            function chartload (charid){
+                charno=0;
+                $("#charts").html("");
+                $get('../api/charts.json',function(char){
+                    $(char.charts).each(function(i,chdata){
+                        $.get(chdata.href+".json",function(crdata){
+                            $(crdata).each(function(index,data){
+                                $(data.indicators).each(function(i,hdata){
+                                    if(charid==hdata.id){
+                                        charno++;
+                                        console.log(charno+':'+charid);
+                                    }
+                                });
+                            });
+                        });
+                    });
+                });
+
+            }
 
     $(document).ready(function(){
         $("#search").keyup(function(){
@@ -56,7 +77,8 @@
                                 var anchor = $("<a></a>").attr("href","#").attr("id",d.name.replace(' ','_')).append(d.name);
                                 console.log($(json.indicators).length);
                                 $("#section1").append(anchor).append("<br/>");
-
+                                reportload(d.id);
+                                   console.log(d.id);
                             });
 
                         });
