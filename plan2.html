@@ -17,7 +17,7 @@
 
 
 <script type="text/javascript">
-            var reponu;charno;
+            var reponu,charno,mapno;
     function reportload(repoid)
     {
       reponu = 0;
@@ -44,7 +44,7 @@
             function chartload (charid){
                 charno=0;
                 $("#charts").html("");
-                $get('../api/charts.json',function(char){
+                $.get('../api/charts.json',function(char){
                     $(char.charts).each(function(i,chdata){
                         $.get(chdata.href+".json",function(crdata){
                             $(crdata).each(function(index,data){
@@ -58,6 +58,26 @@
                         });
                     });
                 });
+
+            }
+            function mapload (maid){
+                mapno =0;
+                $("#maps").html("");
+                   $('../api/mapViews.json',function(mapi){
+                       $(mapi.maps).each(function(i,mapdata){
+                           $.get(mapdata.href+".json",function(mapidata){
+                               $(mapidata).each(function(index,data){
+                                   $(data.indicators).each(function(i,mdata){
+                                       if(maid==mdata.id){
+                                           mapno++;
+                                           console.log(mapno+':'+maid);
+                                       }
+                                   });
+                               });
+                           });
+                       });
+                   }) ;
+
 
             }
 
@@ -79,6 +99,8 @@
                                 $("#section1").append(anchor).append("<br/>");
                                 reportload(d.id);
                                    console.log(d.id);
+                                chartload(d.id);
+                                console.log(d.id);
                             });
 
                         });
