@@ -1,0 +1,312 @@
+<html>
+<head>
+    <title>Statistics of data elements and indicators</title>
+
+</head>
+<style>
+    #results
+    {
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #section
+    {
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #charts{
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #total{
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #reports{
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #maps{
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #datacharts{
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+        margin:0px;
+    }
+    #elements{
+        width:500px;
+        padding:10px;
+        border:5px solid gray;
+
+    }
+
+</style>
+<script type = "text/javascript">
+var indicatorid=[];
+var indicatorname=[];
+var chatindicatorid=[];
+var reportindicatorid=[];
+var mapindicatorid=[];
+var dataelementid=[];
+var dataelementname=[];
+var datacharts=[];
+var datareports=[];
+var datamap=[];
+
+var obj = { };
+$(document).ready(function(){
+    $.get('../api/charts.json', function(json){
+        $(json.charts).each(function(i, data){
+            var id = data.id;
+            $.get('../api/charts/'+id+'.json',function(json){
+                $(json.indicators).each(function(i, data){
+                    var anchor=data.id;
+                    chatindicatorid.push(anchor);
+
+                });
+
+            });
+            $.get('../api/charts/'+id+'.json',function(json){
+                $(json.dataElements).each(function(i, data){
+                    var anchor=data.id;
+                    datacharts.push(anchor);
+
+                });
+
+            });
+        });
+    });
+
+
+
+
+    $.get('../api/dataElements.json', function(json){
+        $(json.dataElements).each(function(i, data){
+            var id = data.id;
+            dataelementid.push(id);
+            var name=data.name;
+            dataelementname.push(name);
+
+        });
+    });
+    $.get('../api/indicators.json', function(json){
+        $(json.indicators).each(function(i, data){
+            var id = data.id;
+            indicatorid.push(id);
+            var name=data.name;
+            indicatorname.push(name);
+
+        });
+    });
+    $.get('../api/reportTables.json', function(json){
+        $(json.reportTables).each(function(i, data){
+            var id = data.id;
+            $.get('../api/reportTables/'+id+'.json',function(json){
+                $(json.indicators).each(function(i, data){
+                    var anchor=data.id;
+                    reportindicatorid.push(anchor);
+
+                });
+
+            });
+            $.get('../api/reportTables/'+id+'.json',function(json){
+                $(json.dataElements).each(function(i, data){
+                    var anchor=data.id;
+                    datareports.push(anchor);
+
+                });
+            });
+        });
+        $.get('../api/mapViews.json', function(json){
+            $(json.mapViews).each(function(i, data){
+                var id = data.id;
+                $.get('../api/mapViews/'+id+'.json',function(json){
+                    $(json.indicator).each(function(i, data){
+                        var anchor=data.id;
+                        mapindicatorid.push(anchor);
+
+                    });
+
+                });
+                $.get('../api/mapViews/'+id+'.json',function(json){
+                    $(json.dataElements).each(function(i, data){
+                        var anchor=data.id;
+                        datamap.push(anchor);
+
+                    });
+
+                });
+            });
+        });
+    });
+});
+
+$(document).ajaxStop(function(){
+
+    for(var i=0;i<indicatorid.length;i++){
+        var item=indicatorid[i];
+        var counter=0;
+        var count= countElement(item, chatindicatorid);
+        counter=counter+count;
+        if(count==0){
+            $("#charts").append(indicatorname[i]+'NOT USED: ').append("<br/>");
+        }
+        else{
+            $("#charts").append(indicatorname[i]+' USED: ').append(count).append(' TIMES in charts'+"<br/>");
+        }
+        count=countmaps(item,mapindicatorid);
+        counter=counter+count;
+        if(count==0){
+            $("#section").append(indicatorname[i]+'NOT USED: ').append("<br/>");
+        }
+        else{
+            $("#section").append(indicatorname[i]+' USED: ').append(count).append(' TIMES in maps'+"<br/>");
+        }
+        count=countreports(item,reportindicatorid);
+        counter=counter+count;
+        if(count==0){
+            $("#results").append(indicatorname[i]+'NOT USED: ').append("<br/>");
+        }
+        else{
+            $("#results").append(indicatorname[i]+' USED: ').append(count).append(' TIMES in reportTables'+"<br/>");
+        }
+        if(counter>0){
+            var totallength=(reportindicatorid.length)+(chatindicatorid.length)+(mapindicatorid.length);
+            var percent=counter/totallength*100;
+            $("#total").append(indicatorname[i]+' USED : ').append(counter+' TIMES ');
+            $("#total").append('percentage use: '+percent+'%').append("<br/>");
+        }
+        else{
+            $("#total").append(indicatorname[i]+' NOT USED : ').append("<br/>");
+        }
+
+    }
+
+    function countElement(item,chatindicatorid) {
+        var count = 0;
+        $.each(chatindicatorid, function(i,v) { if (v === item) count++; });
+        return count;
+    }
+    function countmaps(item,mapindicatorid){
+        var count = 0;
+        $.each(mapindicatorid, function(i,v) { if (v === item) count++; });
+        return count;
+    }
+    function countreports(item,reportindicatorid) {
+        var count = 0;
+        $.each(reportindicatorid, function(i,v) { if (v === item) count++; });
+        return count;
+    }
+
+
+    function countdataelement(item,datacharts) {
+        var count = 0;
+        $.each(datacharts, function(i,v) { if (v === item) count++; });
+        return count;
+    }
+    function datamaps(item,datamap){
+        var count = 0;
+        $.each(datamap, function(i,v) { if (v === item) count++; });
+        return count;
+    }
+    function datarep(item,datareports) {
+        var count = 0;
+        $.each(datareports, function(i,v) { if (v === item) count++; });
+        return count;
+    }
+
+
+    for(var i=0;i<dataelementid.length;i++){
+        var item=dataelementid[i];
+        var counter=0;
+        var count= countdataelement(item, datacharts);
+        counter=counter+count;
+        if(count==0){
+            $("#datacharts").append(dataelementname[i]+'NOT USED: ').append("<br/>");
+        }
+        else{
+            $("#datacharts").append(dataelementname[i]+' USED: ').append(count).append(' TIMES in charts'+"<br/>");
+
+        }
+        count=datamaps(item,datamap);
+        counter=counter+count;
+        if(count==0){
+            $("#maps").append(dataelementname[i]+'NOT USED: ').append("<br/>");
+        }
+        else{
+            $("#maps").append(dataelementname[i]+' USED: ').append(count).append(' TIMES in maps'+"<br/>");
+        }
+        count=datarep(item,datareports);
+        counter=counter+count;
+        if(count==0){
+            $("#reports").append(dataelementname[i]+'NOT USED: ').append("<br/>");
+        }
+        else{
+            $("#reports").append(dataelementname[i]+' USED: ').append(count).append(' TIMES in reportTables'+"<br/>");
+        }
+        if(counter>0){
+            var totallength=(datareports.length)+(datacharts.length)+(datamap.length);
+            var percent=counter/totallength*100;
+            $("#elements").append(dataelementname[i]+' USED : ').append(counter+' TIMES ');
+            $("#elements").append('percentage use: '+percent+'%').append("<br/>");
+        }
+        else{
+            $("#elements").append(dataelementname[i]+' NOT USED : ').append("<br/>");
+        }
+    }
+
+
+});
+
+</script>
+
+<div id="indicators">
+
+    <div id = "results">
+        <h1>Report tables indicator statistics</h1>
+    </div>
+
+    <div id= "section">
+        <h1> map indicator statistics</h1>
+
+    </div>
+    <div id="charts">
+        <h1> Charts indicator statistics</h1>
+    </div>
+    <div id="total">
+        <h1> Total indicator usage</h1>
+    </div>
+</div>
+<div id="dataelements">
+
+    <div id = "reports">
+        <h1>Report tables dataElements statistics</h1>
+    </div>
+
+    <div id= "maps">
+        <h1> map dataElements statistics</h1>
+
+    </div>
+    <div id="datacharts">
+        <h1> Charts dataElements statistics</h1>
+    </div>
+    <div id="elements">
+        <h1> Total dataElements statistics</h1>
+    </div>
+</div>
+</html>
