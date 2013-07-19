@@ -187,7 +187,8 @@ $(document).ajaxStop(function(){
         }
         if(counter>0){
             var totallength=(reportindicatorid.length)+(chatindicatorid.length)+(mapindicatorid.length);
-            var percent=counter/totallength*100;
+            var percentage=counter/totallength*100;
+            var percent=percentage.toFixed(2);
             $("#total").append(indicatorname[i]+' USED : ').append(counter+' TIMES ');
             $("#total").append('percentage use: '+percent+'%').append("<br/>");
         }
@@ -261,12 +262,13 @@ $(document).ajaxStop(function(){
         }
         if(counter>0){
             var totallength=(datareports.length)+(datacharts.length)+(datamap.length);
-            var percent=counter/totallength*100;
+            var percentage=counter/totallength*100;
+            var percent=percentage.toFixed(2);
             $("#elements").append(dataelementname[i]+' USED : ').append(counter+' TIMES ');
             $("#elements").append('percentage use: '+percent+'%').append("<br/>");
         }
         else{
-            $("#elements").append(dataelementname[i]+' NOT USED : ').append("<br/>");
+            $("#elements").append(dataelementname[i]+ ' NOT USED  ').append("<br/>");
         }
     }
 
