@@ -8,50 +8,50 @@
     {
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #section
     {
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #charts{
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #total{
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #reports{
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #maps{
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #datacharts{
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
         margin:0px;
     }
     #elements{
         width:500px;
         padding:10px;
-        border:5px solid gray;
+        border:5px hidden;
 
     }
 
@@ -164,7 +164,7 @@ $(document).ajaxStop(function(){
         var count= countElement(item, chatindicatorid);
         counter=counter+count;
         if(count==0){
-            $("#charts").append(indicatorname[i]+'NOT USED: ').append("<br/>");
+            $("#charts").append(indicatorname[i]+' NOT USED ').append("<br/>");
         }
         else{
             $("#charts").append(indicatorname[i]+' USED: ').append(count).append(' TIMES in charts'+"<br/>");
@@ -172,7 +172,7 @@ $(document).ajaxStop(function(){
         count=countmaps(item,mapindicatorid);
         counter=counter+count;
         if(count==0){
-            $("#section").append(indicatorname[i]+'NOT USED: ').append("<br/>");
+            $("#section").append(indicatorname[i]+' NOT USED ').append("<br/>");
         }
         else{
             $("#section").append(indicatorname[i]+' USED: ').append(count).append(' TIMES in maps'+"<br/>");
@@ -193,7 +193,7 @@ $(document).ajaxStop(function(){
             $("#total").append('percentage use: '+percent+'%').append("<br/>");
         }
         else{
-            $("#total").append(indicatorname[i]+' NOT USED : ').append("<br/>");
+            $("#total").append(indicatorname[i]+'  NOT USED  ').append("<br/>");
         }
 
     }
@@ -238,7 +238,7 @@ $(document).ajaxStop(function(){
         var count= countdataelement(item, datacharts);
         counter=counter+count;
         if(count==0){
-            $("#datacharts").append(dataelementname[i]+'NOT USED: ').append("<br/>");
+            $("#datacharts").append(dataelementname[i]+' NOT USED ').append("<br/>");
         }
         else{
             $("#datacharts").append(dataelementname[i]+' USED: ').append(count).append(' TIMES in charts'+"<br/>");
@@ -247,7 +247,7 @@ $(document).ajaxStop(function(){
         count=datamaps(item,datamap);
         counter=counter+count;
         if(count==0){
-            $("#maps").append(dataelementname[i]+'NOT USED: ').append("<br/>");
+            $("#maps").append(dataelementname[i]+' NOT USED ').append("<br/>");
         }
         else{
             $("#maps").append(dataelementname[i]+' USED: ').append(count).append(' TIMES in maps'+"<br/>");
@@ -255,7 +255,7 @@ $(document).ajaxStop(function(){
         count=datarep(item,datareports);
         counter=counter+count;
         if(count==0){
-            $("#reports").append(dataelementname[i]+'NOT USED: ').append("<br/>");
+            $("#reports").append(dataelementname[i]+' NOT USED ').append("<br/>");
         }
         else{
             $("#reports").append(dataelementname[i]+' USED: ').append(count).append(' TIMES in reportTables'+"<br/>");
@@ -280,32 +280,32 @@ $(document).ajaxStop(function(){
 <div id="indicators">
 
     <div id = "results">
-        <h1>Report tables indicator statistics</h1>
+        <h1>Report tables indicator usage</h1>
     </div>
 
     <div id= "section">
-        <h1> map indicator statistics</h1>
+        <h1> map indicator usage</h1>
 
     </div>
     <div id="charts">
-        <h1> Charts indicator statistics</h1>
+        <h1> Charts indicator usage</h1>
     </div>
     <div id="total">
-        <h1> Total indicator usage</h1>
+        <h1> Total indicator statistics</h1>
     </div>
 </div>
-<div id="dataelements">
+<div id="dataelements" style="position:absolute;left:700px;top:100px;">
 
     <div id = "reports">
-        <h1>Report tables dataElements statistics</h1>
+        <h1>Report tables dataElements usage</h1>
     </div>
 
     <div id= "maps">
-        <h1> map dataElements statistics</h1>
+        <h1> map dataElements usage</h1>
 
     </div>
     <div id="datacharts">
-        <h1> Charts dataElements statistics</h1>
+        <h1> Charts dataElements usage</h1>
     </div>
     <div id="elements">
         <h1> Total dataElements statistics</h1>
