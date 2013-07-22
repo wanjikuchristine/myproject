@@ -67,6 +67,8 @@ var dataelementname=[];
 var datacharts=[];
 var datareports=[];
 var datamap=[];
+var chatid=[] ;
+var repoidd=[];
 
 var obj = { };
 $(document).ready(function(){
@@ -77,7 +79,7 @@ $(document).ready(function(){
                 $(json.indicators).each(function(i, data){
                     var anchor=data.id;
                     chatindicatorid.push(anchor);
-
+                    chatid.push(id);
                 });
 
             });
@@ -120,7 +122,7 @@ $(document).ready(function(){
                 $(json.indicators).each(function(i, data){
                     var anchor=data.id;
                     reportindicatorid.push(anchor);
-
+                    repoidd.push(id);
                 });
 
             });
@@ -167,7 +169,12 @@ $(document).ajaxStop(function(){
             $("#charts").append(indicatorname[i]+' NOT USED ').append("<br/>");
         }
         else{
-            $("#charts").append(indicatorname[i]+' USED: ').append(count).append(' TIMES in charts'+"<br/>");
+            /*var index= jQuery.inArray(indicatorid[i], chatindicatorid);
+             var anchor=$("<a></a>").attr("href",'../../../demo/api/charts/'+chatid[index]+'/data').append(indicatorname[i]+' used: ').append(count).append(' TIMES in charts'+"<br/>");*/
+            var index= jQuery.inArray(indicatorid[i], chatindicatorid);
+            var anchor=$("<a></a>").attr("href",'../../../demo/api/charts/'+chatid[index]+'/data').append(indicatorname[i]+' used: ').append(count).append(' TIMES in charts'+"<br/>");
+
+            $("#charts").append(anchor);
         }
         count=countmaps(item,mapindicatorid);
         counter=counter+count;
@@ -189,8 +196,9 @@ $(document).ajaxStop(function(){
             var totallength=(reportindicatorid.length)+(chatindicatorid.length)+(mapindicatorid.length);
             var percentage=counter/totallength*100;
             var percent=percentage.toFixed(2);
-            $("#total").append(indicatorname[i]+' USED : ').append(counter+' TIMES ');
-            $("#total").append('percentage use: '+percent+'%').append("<br/>");
+            var index= jQuery.inArray(indicatorid[i], chatindicatorid);
+            var anchor=$("<a></a>").attr("href",'../api/charts/'+chatid[index]+'/data').append(indicatorname[i]);
+            $("#total").append(anchor).append('percentage use: '+percent+'%').append("<br/>");;
         }
         else{
             $("#total").append(indicatorname[i]+'  NOT USED  ').append("<br/>");
@@ -265,7 +273,9 @@ $(document).ajaxStop(function(){
             var percentage=counter/totallength*100;
             var percent=percentage.toFixed(2);
             $("#elements").append(dataelementname[i]+' USED : ').append(counter+' TIMES ');
-            $("#elements").append('percentage use: '+percent+'%').append("<br/>");
+            var index= jQuery.inArray(dataelementid[i], datareports);
+            var anchor=$("<a></a>").attr("href",'../api/reportTables/.json'+repoidd[index]+'/data').append(dataelementname[i]);
+            $("#total").append(anchor).append('percentage use: '+percent+'%').append("<br/>");
         }
         else{
             $("#elements").append(dataelementname[i]+ ' NOT USED  ').append("<br/>");
@@ -279,34 +289,12 @@ $(document).ajaxStop(function(){
 
 <div id="indicators">
 
-    <div id = "results">
-        <h1>Report tables indicator usage</h1>
-    </div>
-
-    <div id= "section">
-        <h1> map indicator usage</h1>
-
-    </div>
-    <div id="charts">
-        <h1> Charts indicator usage</h1>
-    </div>
-    <div id="total">
+     <div id="total">
         <h1> Total indicator statistics</h1>
     </div>
 </div>
 <div id="dataelements" style="position:absolute;left:700px;top:100px;">
 
-    <div id = "reports">
-        <h1>Report tables dataElements usage</h1>
-    </div>
-
-    <div id= "maps">
-        <h1> map dataElements usage</h1>
-
-    </div>
-    <div id="datacharts">
-        <h1> Charts dataElements usage</h1>
-    </div>
     <div id="elements">
         <h1> Total dataElements statistics</h1>
     </div>
